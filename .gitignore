@@ -1,34 +1,78 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# ===============================
 
-### STS ###
-.apt_generated
+# Java / Spring Boot (Maven) .gitignore
+
+# ===============================
+
+# ===== Build files =====
+
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ===== Logs =====
+
+*.log
+logs/
+
+# ===== OS files =====
+
+.DS_Store
+Thumbs.db
+
+# ===== IntelliJ IDEA =====
+
+.idea/
+*.iml
+
+# ===== Eclipse / STS =====
+
+.apt_generated/
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
-*.yml
-*.log
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-/htmlReport
-### NetBeans ###
+.sts4-cache/
+
+# ===== VS Code =====
+
+.vscode/
+
+# ===== NetBeans =====
+
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# ===== Maven Wrapper =====
+
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== Environment variables =====
+
+.env
+.env.*
+
+# ===== Application config (sensitive only) =====
+application.yml
+application-local.yml
+application-dev.yml
+application-prod.yml
+
+# ===== Security files =====
+
+*.key
+*.pem
+*.p12
+*.jks
+
+# ===== Test reports =====
+
+/htmlReport/
+surefire-reports/
+failsafe-reports/
