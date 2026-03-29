@@ -1,13 +1,9 @@
 package net.engineeringdigest.journalApp.service;
 
-import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -34,19 +30,18 @@ public class UserService {
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
             return true;
-        }catch(Exception e) {
-            log.error(e.getMessage(),e);
+        } catch (Exception e) {
             return false;
         }
     }
 
     public void saveUser(User user) {
-        user.setRoles(Arrays.asList("USER"));
         userRepository.save(user);
     }
+
     public void saveAdmin(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("ADMIN","USER"));
+        user.setRoles(Arrays.asList("ADMIN", "USER"));
         userRepository.save(user);
     }
 
@@ -56,11 +51,6 @@ public class UserService {
 
     public void deleteById(ObjectId id) {
         userRepository.deleteById(id);
-    }
-
-    public User updateEntry(ObjectId id, User user) {
-        user.setId(id);
-        return userRepository.save(user);
     }
 
     public User findByUserName(String userName) {

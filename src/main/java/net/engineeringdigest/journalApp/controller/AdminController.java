@@ -16,25 +16,29 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+    
     @Autowired
     private AppCache appCache;
 
     @GetMapping("/all-users")
-    public ResponseEntity<?> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAll();
-        if(users != null && !users.isEmpty()){
+        if (users != null && !users.isEmpty()) {
+            users.forEach(u -> u.setPassword(null));
             return new ResponseEntity<>(users, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/create-admin-user")
-    public void createAdminUser(@RequestBody User user) {
+    public ResponseEntity<String> createAdminUser(@RequestBody User user) {
         userService.saveAdmin(user);
+        return new ResponseEntity<>("Admin created", HttpStatus.CREATED);
     }
 
     @GetMapping("/refresh-app-cache")
-    public void refreshAppCache() {
+    public ResponseEntity<String> refreshAppCache() {
         appCache.init();
+        return new ResponseEntity<>("Cache refreshed", HttpStatus.OK);
     }
 }
